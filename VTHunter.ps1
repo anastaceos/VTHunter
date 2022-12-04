@@ -1,8 +1,9 @@
 
 #
 # Command to search for all unique SHA256 hashses from Splunk
-# source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" | stats count by SHA256 | dedup SHA256
+# source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" | stats count by SHA256 
 # Then export results as XML with the file name "hashes"
+# Export needs to be in the same directory as the script
 #
 # Command to set VT API key 
 # Set-VTAPIKey -APIKey <API Key>
@@ -13,7 +14,7 @@ Write-Host "____   _______________ ___ ___               __                "
 Write-Host "\   \ /   /\__    ___//   |   \ __ __  _____/  |_  ___________ "
 Write-Host " \   Y   /   |    |  /    ~    \  |  \/    \   __\/ __ \_  __ \"
 Write-Host "  \     /    |    |  \    Y    /  |  /   |  \  | \  ___/|  | \/"
-Write-Host "   \___/     |____|   \___|_  /|____/|___|  /__|  \___  >__|   "
+Write-Host "   \___/     |____|   \___|___/|____/|___|__/__|  \____>|__|   "
 Write-Host " "            
 Write-Host "Script by Stacy Christakos to detect and threat hunt malware with VirusTotal"                                                                                               
 Start-Sleep -s 5                                                                   
