@@ -1,26 +1,21 @@
 
 #
 # Command to search for all unique SHA256 hashses from Splunk
-# index=* source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventID=1 | dedup SHA256 | stats count by SHA256
+# source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" | stats count by SHA256 | dedup SHA256
 # Then export results as XML with the file name "hashes"
 #
-# Command to set VT API key
+# Command to set VT API key 
 # Set-VTAPIKey -APIKey <API Key>
 #
 
 Write-Host " "
-Write-Host "____   _______________   ___ ___               __                "
-Write-Host "\   \ /   /\__    ___/  /   |   \ __ __  _____/  |_  ___________ "
-Write-Host " \   Y   /   |    |    /    ~    \  |  \/    \   __\/ __ \_  __ \"
-Write-Host "  \     /    |    |    \    Y    /  |  /   |  \  | \  ___/|  | \/"
-Write-Host "   \___/     |____|     \___|_  /|____/|___|  /__|  \___  >__|   "
-Write-Host "                              \/            \/          \/       "                                                                                                           
-Write-Host "`r`n Script written by Stacy Christakos"
-Write-Host "`r`n This script parses the SHA256 hashes exported into a XML file from Splunk and submits them to VirusTotal"
-Write-Host " Script is based off the Sans Blue Team DeepBlueCLI script and modified to suit requirements"
-Write-Host " See https://github.com/sans-blue-team/DeepBlueCLI for more info on DeepBlueCLI"
-Write-Host " Requires the Posh-VirusTotal Powershell module: https://github.com/darkoperator/Posh-VirusTotal"
-Write-Host " Requires a VirusTotal API Key: https://www.virustotal.com/en/documentation/public-api/"     
+Write-Host "____   _______________ ___ ___               __                "
+Write-Host "\   \ /   /\__    ___//   |   \ __ __  _____/  |_  ___________ "
+Write-Host " \   Y   /   |    |  /    ~    \  |  \/    \   __\/ __ \_  __ \"
+Write-Host "  \     /    |    |  \    Y    /  |  /   |  \  | \  ___/|  | \/"
+Write-Host "   \___/     |____|   \___|_  /|____/|___|  /__|  \___  >__|   "
+Write-Host " "            
+Write-Host "Script by Stacy Christakos to detect and threat hunt malware with VirusTotal"                                                                                               
 Start-Sleep -s 5                                                                   
 
 # Start script
@@ -34,25 +29,26 @@ $unknowndir=".\Hashes\Unknown"
 $reportdir=".\Hashes\Reports"
 
 # Checks if directories are created, if not create them
-Write-Host "[>] Checking for the main hash directories"
+Write-Host "[>] Checking for the main hash directory"
 if(-not (Test-Path "$hashdir")){
-	Write-Host "[>] Main directories are not created"
-	Write-Host "[+] Creating main hash directory"
+	Write-Host "[!] Main directory is not created"
+	Write-Host "[+] Creating the main hash directory"
 	$hashdir=New-Item -Name "Hashes" -ItemType "directory"
 	if( -not (Test-Path "$whitelistdir") -and -not (Test-Path "$blacklistdir") -and -not (Test-Path "$unknowndir") -and -not (Test-Path "$reportdir")){
-		Write-Host "[+] Creating all sub directories`r`n"
+		Write-Host "[+] Creating all required sub directories"
 		$whitelistdir=New-Item -Path $hashdir -Name "Whitelist" -ItemType "directory"
 		$blacklistdir=New-Item -Path $hashdir -Name "Blacklist" -ItemType "directory"
         $unknowndir=New-Item -Path $hashdir -Name "Unknown" -ItemType "directory"
 		$reportdir=New-Item -Path $hashdir -Name "Reports" -ItemType "directory"
+        Write-Host "[>] All required sub directories have been created`r`n"
 		}
 	}
 else{
-	Write-Host "[>] All the hash directories are already created`r`n" 
+	Write-Host "[>] All the required directories are already created`r`n" 
 }
 
 # Create hash files by parsing hash XML file exported from Splunk
-Write-Host "[>] Parsing the Hashes.xml file - Please wait..."
+Write-Host "[>] Extracting the SHA256 hashes from Hashes.xml file - Please wait..."
 $hashxml=".\Hashes.xml"
 Select-Xml -Path $hashxml -XPath 'results/result/field/value/text' | ForEach-Object {
     $SHA256=$_.Node.InnerXML      
@@ -90,11 +86,11 @@ Select-Xml -Path $hashxml -XPath 'results/result/field/value/text' | ForEach-Obj
 		}
     }
   }
-Write-Host "[>] Parsing of the Hashes.xml file is complete"
+Write-Host "[>] Extracting SHA256 hashes from Hashes.xml file is complete"
 Write-Host "[>] See the Hashes.log file for more detail"
 
 # Starts hash submissions to VirusTotal
-Write-Host "`r`n[>] Starting submissions of hashes to VirusTotal`r`n"
+Write-Host "`r`n[>] Starting submissions of SHA256 hashes to VirusTotal`r`n"
 # Get the name of each hash file from the directory and submits to VirusTotal
 Get-ChildItem $hashdir | Foreach-Object{
     if ($_.Name -Match '^[0-9A-F]{64}$'){ # SHA256 hashes are 64 character hex strings
