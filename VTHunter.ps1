@@ -15,12 +15,8 @@ Write-Host "\   \ /   /\__    ___//   |   \ __ __  _____/  |_  ___________ "
 Write-Host " \   Y   /   |    |  /    ~    \  |  \/    \   __\/ __ \_  __ \"
 Write-Host "  \     /    |    |  \    Y    /  |  /   |  \  | \  ___/|  | \/"
 Write-Host "   \___/     |____|   \___|___/|____/|___|__/__|  \____>|__|   "
-Write-Host " "            
-Write-Host "Time to hunt"                                                                                               
+Write-Host " "                                                                                                        
 Start-Sleep -s 5                                                                   
-
-# Start script
-Write-Host "`r`n[>] Starting [<]`r`n"
 
 # Set variables for directories
 $hashdir=".\Hashes"
@@ -96,7 +92,7 @@ Write-Host "[>] Analysis of the SHA256 hashes from the Hashes.xml file is comple
 Write-Host "[>] See the Hashes.log file for more detail"
 
 # Starts hash submissions to VirusTotal
-Write-Host "`r`n[>] Submitting hashes to VirusTotal...`r`n"
+Write-Host "`r`n[>] Submitting hashes to VirusTotal`r`n"
 # Get the name of each hash file from the directory and submits to VirusTotal
 Get-ChildItem $hashdir | Foreach-Object{
     if ($_.Name -Match '^[0-9A-F]{64}$'){ # SHA256 hashes are 64 character hex strings
