@@ -16,11 +16,11 @@ Write-Host " \   Y   /   |    |  /    ~    \  |  \/    \   __\/ __ \_  __ \"
 Write-Host "  \     /    |    |  \    Y    /  |  /   |  \  | \  ___/|  | \/"
 Write-Host "   \___/     |____|   \___|___/|____/|___|__/__|  \____>|__|   "
 Write-Host " "            
-Write-Host "Script by Stacy Christakos to detect and threat hunt malware with VirusTotal"                                                                                               
+Write-Host "Time to hunt"                                                                                               
 Start-Sleep -s 5                                                                   
 
 # Start script
-Write-Host "`r`n[>] Starting script`r`n"
+Write-Host "`r`n[>] Starting [<]`r`n"
 
 # Set variables for directories
 $hashdir=".\Hashes"
@@ -30,31 +30,31 @@ $unknowndir=".\Hashes\Unknown"
 $reportdir=".\Hashes\Reports"
 
 # Checks if directories are created, if not create them
-Write-Host "[>] Checking for the main Hashes directory"
+Write-Host "[>] Checking for the main hashes directory`r`n"
 if(-not (Test-Path "$hashdir")){
-	Write-Host "[!] Main Hashes directory is not created"
-	Write-Host "[+] Creating the main Hashes directory"
+	Write-Host "[!] The main hashes directory is not created"
+	Write-Host "[+] Creating the main hashes directory"
 	$hashdir=New-Item -Name "Hashes" -ItemType "directory"
 	if( -not (Test-Path "$whitelistdir") -and -not (Test-Path "$blacklistdir") -and -not (Test-Path "$unknowndir") -and -not (Test-Path "$reportdir")){
 		Write-Host "[+] Creating all required sub directories"
-        Write-Host "[+] Creating Whitelist directory"
+        Write-Host "[+] Creating the Whitelist directory"
 		$whitelistdir=New-Item -Path $hashdir -Name "Whitelist" -ItemType "directory"
-        Write-Host "[+] Creating Blacklist directory"
+        Write-Host "[+] Creating the Blacklist directory"
 		$blacklistdir=New-Item -Path $hashdir -Name "Blacklist" -ItemType "directory"
-        Write-Host "[+] Creating Unknown directory"
+        Write-Host "[+] Creating the Unknown directory"
         $unknowndir=New-Item -Path $hashdir -Name "Unknown" -ItemType "directory"
-        Write-Host "[+] Creating Reports directory"
+        Write-Host "[+] Creating the Reports directory"
 		$reportdir=New-Item -Path $hashdir -Name "Reports" -ItemType "directory"
-        Write-Host "[>] All required sub directories have been created`r`n"
+        Write-Host "[>] All the required sub directories have been created`r`n"
 		}
 	}
 else{
-	Write-Host "[>] The required directories are already created`r`n" 
+	Write-Host "[>] The required directories have already been created`r`n" 
 }
 
 # Create hash files by parsing hash XML file exported from Splunk
-Write-Host "[>] Extracting the SHA256 hashes from Hashes.xml file"
-Write-Host "[>] Please wait..."
+Write-Host "[>] Analysing the SHA256 hashes from the Hashes.xml file"
+Write-Host "[>] Please wait...`r`n"
 $hashxml=".\Hashes.xml"
 Select-Xml -Path $hashxml -XPath 'results/result/field/value/text' | ForEach-Object {
     $SHA256=$_.Node.InnerXML      
@@ -92,11 +92,11 @@ Select-Xml -Path $hashxml -XPath 'results/result/field/value/text' | ForEach-Obj
 		}
     }
   }
-Write-Host "[>] Extracting the SHA256 hashes from Hashes.xml file is complete"
+Write-Host "[>] Analysis of the SHA256 hashes from the Hashes.xml file is complete"
 Write-Host "[>] See the Hashes.log file for more detail"
 
 # Starts hash submissions to VirusTotal
-Write-Host "`r`n[>] Starting submissions of SHA256 hashes to VirusTotal`r`n"
+Write-Host "`r`n[>] Submitting hashes to VirusTotal...`r`n"
 # Get the name of each hash file from the directory and submits to VirusTotal
 Get-ChildItem $hashdir | Foreach-Object{
     if ($_.Name -Match '^[0-9A-F]{64}$'){ # SHA256 hashes are 64 character hex strings
@@ -143,5 +143,5 @@ Get-ChildItem $hashdir | Foreach-Object{
 }
 
 # Hash submissions finished, no hashes to submit
-Write-Host "[>] No more hashes to submit"
+Write-Host "`r`n[>] Submitting hashes to VirusTotal complete"
 Write-Host "[>] Exiting`r`n"

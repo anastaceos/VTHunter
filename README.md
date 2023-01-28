@@ -1,6 +1,7 @@
 # VTHunter
 
-VT Hunter is a means to detect and threat hunt unwanted programs or malware in a Windows environment.
+VT Hunter is a means to detect and threat hunt PUAs or malware in a Windows environment. Purpose of this script by automating the process 
+of submitting SHA256 hashes to VirusTotal using Powershell.
 
 This script extracts the hashes created via Sysmon from an XML export directly from Splunk and will submit the hashes to VirusTotal every 15 seconds.
 The SHA256 hashes are created from Sysmon being deployed in a Windows environment and the logs being ingested into Splunk. 
