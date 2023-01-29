@@ -127,8 +127,8 @@ Get-ChildItem $hashdir | Foreach-Object{
                     Write-Host "[!] Only 1 detection, possible false positive"
                     Write-Host "[!] Check the VirusTotal report to verify"
                 }
-				Write-Host "[!] See $reportdir\$SHA256.$positives.Virustotal for the full report`r`n"
-				$VTreport | Set-Content "$reportdir\$SHA256.$positives.Virustotal"
+				Write-Host "[!] See $reportdir\$SHA256.$positives.VTReport for details`r`n"
+				$VTreport | Set-Content "$reportdir\$SHA256.$positives.VTReport"
 				# Rename original hash file, add the Virustotal positive count as a numbered extension
 				Rename-Item -Path "$hashdir\$SHA256" -NewName "$SHA256.$positives"
 				Move-Item -Path "$hashdir\$SHA256.$positives" -Destination "$blacklistdir"
