@@ -139,5 +139,5 @@ Get-ChildItem $hashdir | Foreach-Object{
 }
 
 # Hash submissions finished, no hashes to submit
-Write-Host "`r`n[>] Submitting hashes to VirusTotal complete"
+Write-Host "`r`n[>] Submitting hashes to VirusTotal is complete"
 Write-Host "[>] Exiting`r`n"
