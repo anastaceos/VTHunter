@@ -32,7 +32,8 @@ if(-not (Test-Path "$hashdir")){
 	Write-Host "[+] Creating the main hashes directory"
 	$hashdir=New-Item -Name "Hashes" -ItemType "directory"
 	if( -not (Test-Path "$whitelistdir") -and -not (Test-Path "$blacklistdir") -and -not (Test-Path "$unknowndir") -and -not (Test-Path "$reportdir")){
-		Write-Host "[+] Creating all required sub directories"
+		Write-Host "[!] The sub directories are not created"
+        Write-Host "[+] Creating all the required sub directories"
         Write-Host "[+] Creating the Whitelist directory"
 		$whitelistdir=New-Item -Path $hashdir -Name "Whitelist" -ItemType "directory"
         Write-Host "[+] Creating the Blacklist directory"
