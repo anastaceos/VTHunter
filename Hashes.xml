@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+  <result>
+    <field k="SHA256">
+      <value><text>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</text></value>
+    </field>
+  </result>
+  <result>
+    <field k="SHA256">
+      <value><text>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</text></value>
+    </field>
+  </result>
+  <result>
+    <field k="SHA256">
+      <value><text>61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1</text></value>
+    </field>
+  </result>
+  <result>
+    <field k="SHA256">
+      <value><text>not-a-real-hash</text></value>
+    </field>
+  </result>
+  <result>
+    <field k="SHA256">
+      <value><text>1234</text></value>
+    </field>
+  </result>
+</results>
